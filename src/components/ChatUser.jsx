@@ -70,9 +70,7 @@ export const ChatUser = () => {
             )}
           </div>
           <div className="modal-footer">
-            {/* <button type="button" className="btn btn-outline-danger btn-sm" >
-                Remove User
-              </button> */}
+            
           </div>
         </div>
       </div>
