@@ -61,14 +61,6 @@ export const AICharacters = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        // await updateDoc(doc(db, "userchats", aiCharacters.id), {
-        //   [combinedId + ".userInfo"]: {
-        //     id: user.id,
-        //     fullname: user.fullname,
-        //     photoURL: user.photoURL,
-        //   },
-        //   [combinedId + ".date"]: serverTimestamp(),
-        // });
         setAiCharacter(aiCharacter)
       }
     } catch (error) {
