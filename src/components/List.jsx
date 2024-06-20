@@ -4,6 +4,7 @@ import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { AddUser } from "./AddUser";
 import { ChatContext, UserContext } from "./contextAPI/allContext";
+import { AICharacters } from "./AICharacters";
 
 export const List = () => {
   // const userList = [
@@ -80,10 +81,9 @@ export const List = () => {
   // ];
 
   const { user } = useContext(UserContext);
-  const { setChatId, setChatUser } = useContext(ChatContext);
+  const { setChatId, setChatUser,setAiCharacter } = useContext(ChatContext);
 
   const [search,setSearch] = useState('')
-
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
@@ -102,10 +102,20 @@ export const List = () => {
     user.id && getUserList();
   }, [user.id]);
 
-  const handleSelectedUser = async (receivedId) => {
+  const handleSelectedUser = async (selectedUser) => {
+    
+    const receivedId = selectedUser[1].userInfo.id
     try {
-      const res = await getDoc(doc(db, "users", receivedId));
-      setChatUser(res.data());
+      if (selectedUser[1].userInfo.isAiCharacter) {
+        const res = await getDoc(doc(db, "characters", receivedId));
+        setChatUser(null);
+        setAiCharacter(res.data());
+        // console.log(res.data());
+      }else{
+        const res = await getDoc(doc(db, "users", receivedId));
+        setAiCharacter(null)
+        setChatUser(res.data());
+      }
       const combinedId =
         user.id > receivedId ? user.id + receivedId : receivedId + user.id;
       setChatId(combinedId);
@@ -126,6 +136,18 @@ export const List = () => {
         <button
           className="btn btn-outline-info rounded my-1"
           data-bs-toggle="modal"
+          data-bs-target="#add-aiCharacters"
+        >
+          Add AI friends <i className="fa fa-plus ps-2" />{" "}
+        </button>
+
+        <AICharacters />
+      </div>
+
+      <div className="addUser text-center mt-1">
+        <button
+          className="btn btn-outline-info rounded my-1"
+          data-bs-toggle="modal"
           data-bs-target="#addUser"
         >
           Add new friend <i className="fa fa-plus ps-2" />{" "}
@@ -133,6 +155,8 @@ export const List = () => {
 
         <AddUser />
       </div>
+
+      
 
       <div className="user-list overflow-y-scroll">
         {userList &&
@@ -145,7 +169,7 @@ export const List = () => {
                 <div
                   className="d-flex align-items-center p-2 my-1 border rounded bg-info"
                   key={index}
-                  onClick={() => handleSelectedUser(user[1].userInfo.id)}
+                  onClick={() => handleSelectedUser(user)}
                 >
                   <img
                     src={

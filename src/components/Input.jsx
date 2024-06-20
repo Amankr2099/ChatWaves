@@ -40,6 +40,7 @@ export const Input = () => {
             hour12: true,
           }),
           imgURL: imgURL,
+          role:"user"
         }),
       });
     } else {
@@ -53,6 +54,7 @@ export const Input = () => {
             minute: "numeric",
             hour12: true,
           }),
+          role:"user"
         }),
       });
     }

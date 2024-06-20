@@ -15,8 +15,6 @@ const UserContextProvider = ({ children }) => {
 
       if (docSnap.exists()) {
         setUser(docSnap.data());
-      } else {
-        alert("User not found");
       }
     } catch (error) {
       alert(error.message)

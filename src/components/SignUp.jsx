@@ -1,51 +1,84 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth, db } from "../lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import upload from "../lib/upload";
 import { Loading } from "../components/Loading";
+import { v4 as uniqueId } from "uuid";
+
 
 export const SignUp = ({ handleFlip }) => {
   const [loading, setLoading] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [err, setErr] = useState(false);
 
+  // const handleAddingCharacter = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const formData = new FormData(e.target);
+  //   const { fullname, username, about } = Object.fromEntries(formData);
+  //   try {
+  //     const imgURL = await upload(profilePic);
+  //     const uniqueId = uniqueId()
+  //     await setDoc(doc(db, "characters", uniqueId), {
+  //       id: uniqueId,
+  //       displayName: username,
+  //       fullname,
+  //       photoURL: imgURL,
+  //       about
+  //     });
+
+  //     alert("Registerd Successfully")
+  //     // window.location.reload();
+  //   } catch (error) {
+  //     if (error.response && error.response.data && error.response.data.error) {
+  //       alert(error.response.data.error);
+  //     } else {
+  //       // alert("An error occurred while registering. Please try again later.");
+  //       alert(error.message);
+  //       setErr(true);
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  
   const handleSignup = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    const formData = new FormData(e.target)
-    const {fullname,username,email,password} = Object.fromEntries(formData)
+    setLoading(true);
+    const formData = new FormData(e.target);
+    const { fullname, username, email, password } =
+      Object.fromEntries(formData);
 
     try {
-        const res = await createUserWithEmailAndPassword(auth,email,password)
+      const res = await createUserWithEmailAndPassword(auth, email, password);
 
-        const imgURL = await upload(profilePic)
-        await setDoc(doc(db,"users",res.user.uid),{
-          displayName:username,
-          fullname,
-          email,
-          photoURL:imgURL,
-          id:res.user.uid
-        })
+      const imgURL = await upload(profilePic);
+      await setDoc(doc(db, "users", res.user.uid), {
+        displayName: username,
+        fullname,
+        email,
+        photoURL: imgURL,
+        id: res.user.uid,
+      });
 
-        await setDoc(doc(db,"userchats",res.user.uid),{})
-        // alert("Registerd Successfully")
-        window.location.reload()
-        
+      await setDoc(doc(db, "userchats", res.user.uid), {});
+
+      // alert("Registerd Successfully")
+      window.location.reload();
     } catch (error) {
-        if (error.response && error.response.data && error.response.data.error) {
-            alert(error.response.data.error);
-        } else {
-            // alert("An error occurred while registering. Please try again later.");
-            alert(error.message)
-            setErr(true);
-
-        }
+      if (error.response && error.response.data && error.response.data.error) {
+        alert(error.response.data.error);
+      } else {
+        // alert("An error occurred while registering. Please try again later.");
+        alert(error.message);
+        setErr(true);
+      }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
-
 
   return (
     <div className="card-back">
@@ -103,6 +136,15 @@ export const SignUp = ({ handleFlip }) => {
               name="email"
             />
           </div>
+
+{/* <div className="form-outline mb-4">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="About.."
+              name="about"
+            />
+          </div> */}
 
           <div className="form-outline mb-4">
             <input

@@ -80,7 +80,7 @@ export const Chat = () => {
             className="user-chats rounded-4 mt-1 bg-secondary-subtle overflow-y-scroll"
             style={{ maxHeight: "550px" }}
           >
-            <div className="text-center my-3">
+            <div className="text-center my-3 text-secondary">
               <h2 className="fs-2">Start your conversation</h2>
               <span>Double-click to remove messages</span>
             </div>
