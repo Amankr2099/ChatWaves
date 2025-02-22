@@ -1,6 +1,6 @@
 # Chatwaves
 
-A real-time chat application built with ReactJS and Firebase
+A real-time chat application built with ReactJS and Firebase.
 
 ## Features
 
