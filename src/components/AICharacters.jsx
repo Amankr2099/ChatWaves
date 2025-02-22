@@ -30,8 +30,8 @@ export const AICharacters = () => {
           return pre;
         })
       })
-    } catch (error) {
-      alert(error.message);
+    } catch (e) {
+      alert(e.message);
     }
   };
 
