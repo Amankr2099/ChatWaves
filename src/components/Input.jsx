@@ -32,7 +32,7 @@ export const Input = () => {
       await updateDoc(doc(db, "chats", chatId), {
         messages: arrayUnion({
           id: uniqueId(),
-          text,
+          text, 
           senderId: user.id,
           time: new Date().toLocaleString("en-IN", {
             hour: "numeric",

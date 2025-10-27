@@ -93,9 +93,10 @@ export const Chat = () => {
                     } mb-5`}
                     style={{ maxWidth: "60%" }}
                     onDoubleClick={() => {
-                      if (message.senderId === user.id) {
-                        handleDelete(index);
-                      }
+                      handleDelete(index);
+                      // if (message.senderId === user.id) {
+                      //   handleDelete(index);
+                      // }
                     }}
                   >
                     <img

@@ -71,7 +71,7 @@ export const AIChat = () => {
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_API_KEY);
 
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: "gemini-2.5-flash",
     systemInstruction: aiCharacter.characterPrompt + 'User name is ' + user.fullname
   });
 
@@ -91,7 +91,7 @@ export const AIChat = () => {
       });
   
       const result = await chatSession.sendMessage(input);
-      console.log(history);
+      // console.log(history);
   
       if (result.response) {
         if (result.response.text() === "You are banned !") {
